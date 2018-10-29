@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <title>First</title>
+</head>
+<body>
+<div class="container">
+    <h1>Writable computed</h1>
+    <div class="form-group">
+      <label for="">Pret</label>
+      <input type="text" class="form-control" data-bind="value: price">
+      <small id="helpId" class="form-text text-muted">Help text</small>
+    </div>
+    <div class="form-group">
+      <label for="">Pret cu TVA</label>
+      <input type="text" class="form-control" data-bind="value: priceWithVAT">
+      <small id="helpId" class="form-text text-muted">Help text</small>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/popper.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script>
+        var VModel = function(data)
+        {
+            var self=this;
+            self.tva=1.19
+            self.price=ko.observable(100);
+            self.priceWithVAT=ko.computed({
+                read: function() {
+                    return (self.price() * self.tva).toFixed(2);
+                },
+                write: function(newValue) {
+                    self.price((newValue/self.tva).toFixed(2));
+                }
+        
+            });
+        }
+        ko.applyBindings(new VModel({ name:"Alex", room:39 }));
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <title>First</title>
+</head>
+<body>
+<div class="container">
+    <h1>Hello!</h1>
+    <span data-bind="text: formatted"></span>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/popper.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script>
+        var VModel = function(data)
+        {
+            var self=this;
+            self.name=ko.observable(data.name);
+            self.room=ko.observable(data.room);
+            self.formatted=ko.computed(function() {
+                return self.name()+" (room:"+self.room() +")";
+            })
+        }
+        
+        ko.applyBindings(new VModel({ name:"Alex", room:39 }));
+    </script>
+</body>
+</html>

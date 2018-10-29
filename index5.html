@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <title>Tracking metadata - extending observables</title>
+</head>
+<body>
+<div class="container">
+    <h1>Tracking metadata - extending observables</h1>
+    <div class="form-group">
+      <label for="">Nume</label>
+      <input type="text" class="form-control" data-bind="value: name.editValue">
+    </div>
+    <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" data-bind="click: name.accept">Save</button>
+    <div>JSON:<br />
+        <pre data-bind="text: ko.toJSON($data,null,2)"></pre></div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/popper.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script>
+        ko.observable.fn.editable = function(){
+            var self=this;
+            self.editValue=ko.observable(self());
+            self.accept=function() {
+                self(self.editValue());
+            };
+            return this;
+        }
+        var VModel = function(data)
+        {
+            var self=this;
+            self.name=ko.observable(data).editable();
+        }
+        ko.applyBindings(new VModel("Alex"));
+    </script>
+</body>
+</html>
