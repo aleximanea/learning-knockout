@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/css/bootstrap-slider.min.css">
+    <title>Binding against a widget</title>
+</head>
+<body>
+<div class="container">
+    <h1>Binding against a widget</h1>
+    <div data-bind="slider: percent"></div>
+    <div class="form-group">
+            <input type="text" class="form-control" data-bind="value: percent">
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/popper.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/bootstrap-slider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script>
+        ko.bindingHandlers.slider = {
+            init: function(element, valueAccessor, allBindings, data, context)
+            {
+                $(element).slider().on("change", function(el){
+                        valueAccessor()(el.value.newValue);
+
+                });
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function(){
+                    $(element).slider("destroy");
+                })
+            },
+            update:  function(element, valueAccessor, allBindings, data, context)
+            {
+                var observable=valueAccessor();
+                $(element).slider("setValue",observable());
+            }
+        }
+        var VModel = function(data)
+        {
+            var self=this;
+            self.percent=ko.observable(data);
+        }
+        
+        ko.applyBindings(new VModel(10));
+    </script>
+</body>
+</html>
